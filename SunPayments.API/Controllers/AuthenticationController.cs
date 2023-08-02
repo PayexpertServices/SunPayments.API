@@ -30,6 +30,7 @@ namespace SunPayments.API.Controllers
             //    headers.Add(header.Key, header.Value);
             //}
 
+            // Body kısmı okuma
             //var reader = new StreamReader(Request.Body);
             //reader.BaseStream.Seek(0, SeekOrigin.Begin);
             //var rawMessage = reader.ReadToEnd();
@@ -38,8 +39,9 @@ namespace SunPayments.API.Controllers
             var x = await _authenticationService.SaveAsync();
 
             // Sen burada NoContentDto nun yerine body deki alanları yollayacaksın.
+            // x.StatusCode un yerine de x den gelen body i eklersin.
 
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success(801));
+            return CreateActionResult(CustomResponseDto<NoContentDto>.Success((int)x.StatusCode));
         }
 
         
