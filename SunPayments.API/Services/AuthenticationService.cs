@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using SunPayments.API.DTOs;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace SunPayments.API.Services
 {
@@ -11,16 +13,23 @@ namespace SunPayments.API.Services
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> SaveAsync()
+        public async Task<PublicKey> SaveAsync()
         {
-           
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+            //string data;
 
-            _httpClient.DefaultRequestHeaders.Add("X-24pay-User-Id", "murat");
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
 
-            var response = await _httpClient.PostAsJsonAsync("initialize", "");
+            //_httpClient.DefaultRequestHeaders.Add("X-24pay-User-Id", "murat");
 
-            return response;
+            //HttpResponseMessage response = await _httpClient.GetAsync("api/v1/security/publicKey");
+
+            //data = await response.Content.ReadAsStringAsync();
+
+            //var x= response.Content;
+
+            var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
+
+            return response.Data;
         }
     }
 }

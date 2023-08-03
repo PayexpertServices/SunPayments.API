@@ -15,7 +15,7 @@ namespace SunPayments.API.Controllers
             _authenticationService = authenticationService;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Save()
         {
             // HEADER KISMI OKUMAYA BAK...
@@ -41,7 +41,7 @@ namespace SunPayments.API.Controllers
             // Sen burada NoContentDto nun yerine body deki alanları yollayacaksın.
             // x.StatusCode un yerine de x den gelen body i eklersin.
 
-            return CreateActionResult(CustomResponseDto<NoContentDto>.Success((int)x.StatusCode));
+            return CreateActionResult(CustomResponseDto<PublicKey>.Success(200,x));
         }
 
         
