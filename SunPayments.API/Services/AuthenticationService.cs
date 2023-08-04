@@ -1,6 +1,9 @@
-﻿using SunPayments.API.DTOs;
+﻿using Org.BouncyCastle.Crypto.Parameters;
+using SunPayments.API.DTOs;
+using SunPayments.API.Key;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace SunPayments.API.Services
 {
@@ -26,8 +29,16 @@ namespace SunPayments.API.Services
             //data = await response.Content.ReadAsStringAsync();
 
             //var x= response.Content;
+            // RSA key DER format
+
 
             var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
+            GenerateKey.GenerateKeys(out string _private, out string _public);
+
+            //byte[] byteArray = Convert.FromBase64String(response.Data.apiPublicKey);
+            //string outputByteArray= Encoding.UTF8.GetString(byteArray);
+
+            var importToRSA = ImportRsaKey.ImportRsaPublicKeyFromDer(Convert.FromBase64String(_public));
 
             return response.Data;
         }
