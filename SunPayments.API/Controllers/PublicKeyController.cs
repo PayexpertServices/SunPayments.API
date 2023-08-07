@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using SunPayments.API.DTOs;
 using SunPayments.API.Services;
 
 namespace SunPayments.API.Controllers
 {
-    public class AuthenticationController : CustomBaseController
+    public class PublicKeyController : CustomBaseController
     {
-        private readonly AuthenticationService _authenticationService;
+        private readonly PublickeyService _authenticationService;
 
-        public AuthenticationController(AuthenticationService authenticationService)
+        public PublicKeyController(PublickeyService authenticationService)
         {
             _authenticationService = authenticationService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> Save()
         {
             // HEADER KISMI OKUMAYA BAK...
@@ -36,12 +37,19 @@ namespace SunPayments.API.Controllers
             //var rawMessage = reader.ReadToEnd();
 
 
-            var x = await _authenticationService.SaveAsync();
+            var getHttpResponse = await _authenticationService.SaveAsync();
+
+            string data = await getHttpResponse.Content.ReadAsStringAsync();
+            var apiData = JsonConvert.DeserializeObject<CustomResponseDto<PublicKey>>(data);
+
+            // burada mapleme yapabilirsin belki
 
             // Sen burada NoContentDto nun yerine body deki alanları yollayacaksın.
             // x.StatusCode un yerine de x den gelen body i eklersin.
 
-            return CreateActionResult(CustomResponseDto<PublicKey>.Success(200,x));
+            return CreateActionResult(CustomResponseDto<PublicKey>.Success((int)getHttpResponse.StatusCode,apiData.Data));
+
+
         }
 
         

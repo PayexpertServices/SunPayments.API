@@ -7,16 +7,16 @@ using System.Text;
 
 namespace SunPayments.API.Services
 {
-    public class AuthenticationService
+    public class PublickeyService
     {
         private readonly HttpClient _httpClient;
 
-        public AuthenticationService(HttpClient httpClient)
+        public PublickeyService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<PublicKey> SaveAsync()
+        public async Task<HttpResponseMessage> SaveAsync()
         {
             //string data;
 
@@ -32,15 +32,11 @@ namespace SunPayments.API.Services
             // RSA key DER format
 
 
-            var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
-            GenerateKey.GenerateKeys(out string _private, out string _public);
+            //var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
 
-            //byte[] byteArray = Convert.FromBase64String(response.Data.apiPublicKey);
-            //string outputByteArray= Encoding.UTF8.GetString(byteArray);
+            HttpResponseMessage response = await _httpClient.GetAsync("api/v1/security/publicKey");
 
-            var importToRSA = ImportRsaKey.ImportRsaPublicKeyFromDer(Convert.FromBase64String(_public));
-
-            return response.Data;
+            return response;
         }
     }
 }
