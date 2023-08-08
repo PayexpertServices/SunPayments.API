@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
 using SunPayments.API.DTOs;
 using SunPayments.API.Services;
 using System.Text;
@@ -30,14 +31,22 @@ namespace SunPayments.API.Controllers
             var TimeStamp = Request.Headers["X-Timestamp"];
             var Signature = Request.Headers["X-Signature"];
 
-            StreamReader reader =new StreamReader(Request.Body);
-            string data=await reader.ReadToEndAsync();
-            var apiData = JsonConvert.DeserializeObject(data);
+            //StreamReader reader =new StreamReader(Request.Body);
+            //string data=await reader.ReadToEndAsync();
+
+            string rawContent = string.Empty;
+            using (var reader = new StreamReader(Request.Body,
+                          encoding: Encoding.UTF8, detectEncodingFromByteOrderMarks: false))
+            {
+                rawContent = await reader.ReadToEndAsync();
+            }
+
+            //var apiData = JsonConvert.DeserializeObject(data);
 
             //StringContent postContent = new StringContent(data, Encoding.UTF8, "application/json");
-            Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(data);
+            //Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(data);
 
-            var getHttpResponse = await _initializeService.EncryptedPayload(data);
+            var getHttpResponse = await _initializeService.EncryptedPayload(rawContent);
             var x = getHttpResponse.Content.ReadAsStringAsync();
 
             return Ok();

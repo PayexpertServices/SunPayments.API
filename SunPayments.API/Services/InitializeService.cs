@@ -12,10 +12,10 @@ namespace SunPayments.API.Services
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> EncryptedPayload(string data)
+        public async Task<HttpResponseMessage> EncryptedPayload(object data)
         {
 
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/v1/signups/payPointMvp/initialize",data);
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/v1/signups/payPointMvp/initialize","cdshvcdshvchsdvchjdsvchdsvjcvsdhcvhdsvchsdvchsdvchdsvcdvdscjdsjcds");
 
             return response;
         }
