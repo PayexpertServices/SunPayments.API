@@ -16,7 +16,7 @@ namespace SunPayments.API.Services
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> SaveAsync()
+        public async Task<HttpResponseMessage> GetPublicKey()
         {
             //string data;
 
@@ -33,6 +33,8 @@ namespace SunPayments.API.Services
 
 
             //var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
+
+            // AŞAĞIDAKİ KODU DEĞİŞTİR.....
 
             HttpResponseMessage response = await _httpClient.GetAsync("api/v1/security/publicKey");
 

@@ -37,7 +37,7 @@ namespace SunPayments.API.Controllers
             //var rawMessage = reader.ReadToEnd();
 
 
-            var getHttpResponse = await _authenticationService.SaveAsync();
+            var getHttpResponse = await _authenticationService.GetPublicKey();
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
             var apiData = JsonConvert.DeserializeObject<CustomResponseDto<PublicKey>>(data);

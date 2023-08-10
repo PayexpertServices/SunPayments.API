@@ -24,6 +24,11 @@ builder.Services.AddHttpClient<ChallengeService>(opt =>
     opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
 });
 
+builder.Services.AddHttpClient<PhoneService>(opt =>
+{
+    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
