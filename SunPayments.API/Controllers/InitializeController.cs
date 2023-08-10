@@ -44,12 +44,14 @@ namespace SunPayments.API.Controllers
             //var apiData = JsonConvert.DeserializeObject(data);
 
             //StringContent postContent = new StringContent(data, Encoding.UTF8, "application/json");
-            //Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(data);
+            Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(rawContent);
 
-            var getHttpResponse = await _initializeService.EncryptedPayload(rawContent);
-            var x = getHttpResponse.Content.ReadAsStringAsync();
+            var getHttpResponse =  _initializeService.EncryptedPayload(rawContent);
 
-            return Ok();
+            var body = await getHttpResponse.Content.ReadAsStringAsync();
+
+
+            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, body));
         }
     }
 }
