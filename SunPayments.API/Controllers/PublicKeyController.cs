@@ -17,7 +17,7 @@ namespace SunPayments.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> Save()
+        public async Task<IActionResult> GetPublicKey()
         {
             // HEADER KISMI OKUMAYA BAK...
             // BODY KISMI OKUMAYA BAK...
