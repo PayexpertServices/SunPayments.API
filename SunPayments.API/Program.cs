@@ -1,3 +1,4 @@
+using SunPayments.API.Configurations;
 using SunPayments.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,42 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient<PublickeyService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-
-builder.Services.AddHttpClient<InitializeService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-
-builder.Services.AddHttpClient<ChallengeService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-
-builder.Services.AddHttpClient<PhoneService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-
-builder.Services.AddHttpClient<InitializeKycService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-        });
-});
+builder.Services
+    .InstallService(
+    builder.Configuration,typeof(IServiceInstaller).Assembly);
 
 var app = builder.Build();
 

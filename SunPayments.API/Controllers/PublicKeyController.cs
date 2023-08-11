@@ -31,23 +31,12 @@ namespace SunPayments.API.Controllers
             //    headers.Add(header.Key, header.Value);
             //}
 
-            // Body kısmı okuma
-            //var reader = new StreamReader(Request.Body);
-            //reader.BaseStream.Seek(0, SeekOrigin.Begin);
-            //var rawMessage = reader.ReadToEnd();
-
 
             var getHttpResponse = await _authenticationService.GetPublicKey();
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
-            var apiData = JsonConvert.DeserializeObject<CustomResponseDto<PublicKey>>(data);
 
-            // burada mapleme yapabilirsin belki
-
-            // Sen burada NoContentDto nun yerine body deki alanları yollayacaksın.
-            // x.StatusCode un yerine de x den gelen body i eklersin.
-
-            return CreateActionResult(CustomResponseDto<PublicKey>.Success((int)getHttpResponse.StatusCode,apiData.Data));
+            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode,data));
 
 
         }

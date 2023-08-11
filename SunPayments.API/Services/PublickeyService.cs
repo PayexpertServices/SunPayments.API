@@ -28,10 +28,6 @@ namespace SunPayments.API.Services
 
             //data = await response.Content.ReadAsStringAsync();
 
-            //var x= response.Content;
-            // RSA key DER format
-
-
             //var response = await _httpClient.GetFromJsonAsync<CustomResponseDto<PublicKey>>("api/v1/security/publicKey");
 
             var request = new HttpRequestMessage(HttpMethod.Get, "api/v1/security/publicKey");
