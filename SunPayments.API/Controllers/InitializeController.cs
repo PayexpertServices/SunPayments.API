@@ -31,17 +31,12 @@ namespace SunPayments.API.Controllers
             var TimeStamp = Request.Headers["X-Timestamp"];
             var Signature = Request.Headers["X-Signature"];
 
-            //StreamReader reader =new StreamReader(Request.Body);
-            //string data=await reader.ReadToEndAsync();
-
             string rawContent = string.Empty;
             using (var reader = new StreamReader(Request.Body,
                           encoding: Encoding.UTF8, detectEncodingFromByteOrderMarks: false))
             {
                 rawContent = await reader.ReadToEndAsync();
             }
-
-            //var apiData = JsonConvert.DeserializeObject(data);
 
             //StringContent postContent = new StringContent(data, Encoding.UTF8, "application/json");
             Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(rawContent);

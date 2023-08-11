@@ -6,19 +6,19 @@ using System.Text;
 
 namespace SunPayments.API.Controllers
 {
-    public class PhoneController : CustomBaseController
+    public class InitializeKycController : CustomBaseController
     {
-        private readonly PhoneService _phoneService;
+        private readonly InitializeKycService _initializeKycService;
 
-        public PhoneController(PhoneService phoneService)
+        public InitializeKycController(InitializeKycService initializeKycService)
         {
-            _phoneService = phoneService;
+            _initializeKycService = initializeKycService;
         }
 
         [HttpPost("{id}/[action]")]
-        public async Task<IActionResult> Confirm(long id)
+        public async Task<IActionResult> InitializeKyc(long id)
         {
-            // HEADER DAN GELEN DATALAR OKUNACAK
+            // Heade dan gelen datalar okunacak
 
             string rawContent = string.Empty;
             using (var reader = new StreamReader(Request.Body,
@@ -27,12 +27,11 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            var getHttpResponse = _phoneService.Confirm(rawContent, id);
+            var getHttpResponse=_initializeKycService.InitializeKyc(rawContent,id);
 
-            var body=await getHttpResponse.Content.ReadAsStringAsync();
+            var body = await getHttpResponse.Content.ReadAsStringAsync();
 
             return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, body));
         }
-
     }
 }

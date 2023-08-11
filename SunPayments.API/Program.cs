@@ -29,6 +29,12 @@ builder.Services.AddHttpClient<PhoneService>(opt =>
     opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
 });
 
+builder.Services.AddHttpClient<InitializeKycService>(opt =>
+{
+    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+});
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
