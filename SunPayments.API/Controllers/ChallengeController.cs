@@ -29,7 +29,7 @@ namespace SunPayments.API.Controllers
                 headers.Add(header.Key, header.Value);
             }
 
-            var getHttpResponse = _challengeService.GetChallengeService(id,userId);
+            var getHttpResponse = _challengeService.GetChallengeService(id,userId,headers);
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
 
