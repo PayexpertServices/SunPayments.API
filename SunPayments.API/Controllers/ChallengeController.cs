@@ -19,18 +19,16 @@ namespace SunPayments.API.Controllers
         [HttpGet("{id}/[action]")]
         public async Task<IActionResult> GetChallenge(long id)
         {
-
             var userId = Request.Headers["X-User-Public-Key-Hash"];
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            var x = Request.Headers;
 
             foreach (var header in Request.Headers)
             {
                 headers.Add(header.Key, header.Value);
             }
 
-            var getHttpResponse = _challengeService.GetChallengeService(id,userId,Request.Headers);
+            var getHttpResponse = _challengeService.GetChallengeService(id,userId,headers);
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
 
