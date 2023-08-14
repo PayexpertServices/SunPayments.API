@@ -21,14 +21,7 @@ namespace SunPayments.API.Controllers
         {
             var userId = Request.Headers["X-User-Public-Key-Hash"];
 
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-
-            foreach (var header in Request.Headers)
-            {
-                headers.Add(header.Key, header.Value);
-            }
-
-            var getHttpResponse = _challengeService.GetChallengeService(id,userId,headers);
+            var getHttpResponse = _challengeService.GetChallengeService(id,userId);
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
 
