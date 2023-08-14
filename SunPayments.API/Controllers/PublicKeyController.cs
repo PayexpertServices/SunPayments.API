@@ -19,8 +19,6 @@ namespace SunPayments.API.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetPublicKey()
         {
-            // HEADER KISMI OKUMAYA BAK...
-            // BODY KISMI OKUMAYA BAK...
             //var token= Request.Headers["token"];
             //var userId = Request.Headers["userId"];
 
@@ -33,10 +31,16 @@ namespace SunPayments.API.Controllers
 
 
             var getHttpResponse = await _authenticationService.GetPublicKey();
+            var data = await getHttpResponse.Content.ReadAsStringAsync();
 
-            string data = await getHttpResponse.Content.ReadAsStringAsync();
-
-            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode,data));
+            if (!getHttpResponse.IsSuccessStatusCode)
+            {
+                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
+            }
+            else
+            {
+                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
+            }
 
 
         }

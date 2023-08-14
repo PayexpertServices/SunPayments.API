@@ -1,4 +1,5 @@
 using SunPayments.API.Configurations;
+using SunPayments.API.DTOs;
 using SunPayments.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);

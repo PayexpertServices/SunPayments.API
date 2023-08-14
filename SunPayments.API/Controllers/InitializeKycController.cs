@@ -18,7 +18,7 @@ namespace SunPayments.API.Controllers
         [HttpPost("{id}/[action]")]
         public async Task<IActionResult> InitializeKyc(long id)
         {
-            // Heade dan gelen datalar okunacak
+            // Header dan gelen datalar okunacak
 
             string rawContent = string.Empty;
             using (var reader = new StreamReader(Request.Body,
@@ -27,11 +27,26 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            var getHttpResponse=_initializeKycService.InitializeKyc(rawContent,id);
+            Dictionary<string, string> headers = new Dictionary<string, string>();
 
-            var body = await getHttpResponse.Content.ReadAsStringAsync();
+            foreach (var header in Request.Headers)
+            {
+                headers.Add(header.Key, header.Value);
+            }
 
-            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, body));
+            var getHttpResponse=_initializeKycService.InitializeKyc(rawContent,id,headers);
+
+            var data=await getHttpResponse.Content.ReadAsStringAsync();
+
+            if (!getHttpResponse.IsSuccessStatusCode)
+            {
+                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode,data));
+            }
+            else
+            {
+                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
+            }
+            
         }
     }
 }
