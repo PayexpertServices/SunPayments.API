@@ -24,27 +24,23 @@ namespace SunPayments.API.Services
             ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(BypassAllCertificate);
         }
 
-        public HttpResponseMessage InitializeKyc(string data, long reference_id, Dictionary<string, string> headers)
+        public HttpResponseMessage InitializeKyc(string data, long reference_id, IHeaderDictionary requestMessage)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/referenceIds/{reference_id}/signups/kyc/initialize")
             {
                 Content = new StringContent(data, Encoding.UTF8, "application/json")
             };
 
-            HeaderAdd(headers, request);
+            foreach (var header in requestMessage)
+            {
+                if(header.ToString().Contains("X-User-Public-Key-Hash") || header.ToString().Contains("X-Timestamp") || header.ToString().Contains("X-Signature") || header.ToString().Contains("X-Challenge"))
+                    request.Headers.Add(header.Key.ToString(), header.Value.ToString());
+            }
 
             HttpResponseMessage response = _httpClient.Send(request);
 
 
             return response;
-        }
-
-        private void HeaderAdd(Dictionary<string, string> headers, HttpRequestMessage requestMessage)
-        {
-            foreach (var header in headers)
-            {
-                requestMessage.Headers.Add(header.Key, header.Value);
-            }
         }
     }
 }

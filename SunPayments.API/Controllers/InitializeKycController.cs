@@ -27,14 +27,8 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            Dictionary<string, string> headers = new Dictionary<string, string>();
 
-            foreach (var header in Request.Headers)
-            {
-                headers.Add(header.Key, header.Value);
-            }
-
-            var getHttpResponse=_initializeKycService.InitializeKyc(rawContent,id,headers);
+            var getHttpResponse=_initializeKycService.InitializeKyc(rawContent,id,Request.Headers);
 
             var data=await getHttpResponse.Content.ReadAsStringAsync();
 
