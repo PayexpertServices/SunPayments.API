@@ -23,13 +23,6 @@ namespace SunPayments.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> EncryptedPayload()
         {
-            // BURADA SANA ENCRYPTED Payload gelecek.
-            // BURADA GELEN HEADER KISMINI DA OKU??????????
-
-            var challenge = Request.Headers["X-Challenge"];
-            var publicKeyHash = Request.Headers["X-User-Public-Key-Hash"];
-            var TimeStamp = Request.Headers["X-Timestamp"];
-            var Signature = Request.Headers["X-Signature"];
 
             string rawContent = string.Empty;
             using (var reader = new StreamReader(Request.Body,
@@ -43,10 +36,17 @@ namespace SunPayments.API.Controllers
 
             var getHttpResponse =  _initializeService.EncryptedPayload(rawContent);
 
-            var body = await getHttpResponse.Content.ReadAsStringAsync();
+            var data = await getHttpResponse.Content.ReadAsStringAsync();
 
 
-            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, body));
+            if (!getHttpResponse.IsSuccessStatusCode)
+            {
+                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
+            }
+            else
+            {
+                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
+            }
         }
     }
 }

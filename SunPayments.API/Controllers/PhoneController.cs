@@ -36,9 +36,16 @@ namespace SunPayments.API.Controllers
 
             var getHttpResponse = _phoneService.Confirm(rawContent, id,headers);
 
-            var body=await getHttpResponse.Content.ReadAsStringAsync();
+            var data=await getHttpResponse.Content.ReadAsStringAsync();
 
-            return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, body));
+            if (!getHttpResponse.IsSuccessStatusCode)
+            {
+                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
+            }
+            else
+            {
+                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
+            }
         }
 
     }
