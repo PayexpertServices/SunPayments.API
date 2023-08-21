@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SunPayments.API.DTOs;
+using SunPayments.API.Helpers;
 using SunPayments.API.Services;
 using System.Text;
 
@@ -18,7 +19,6 @@ namespace SunPayments.API.Controllers
         [HttpPost("{id}/[action]")]
         public async Task<IActionResult> Confirm(long id)
         {
-            // HEADER DAN GELEN DATALAR OKUNACAK
 
             string rawContent = string.Empty;
             using (var reader = new StreamReader(Request.Body,
@@ -27,12 +27,7 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-
-            foreach (var header in Request.Headers)
-            {
-                headers.Add(header.Key, header.Value);
-            }
+            var headers= AddHeaders.AddHeaderValues(Request.Headers);
 
             var getHttpResponse = _phoneService.Confirm(rawContent, id,headers);
 
