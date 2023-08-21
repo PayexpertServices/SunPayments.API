@@ -19,16 +19,6 @@ namespace SunPayments.API.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetPublicKey()
         {
-            //var token= Request.Headers["token"];
-            //var userId = Request.Headers["userId"];
-
-            //Dictionary<string,string> headers= new Dictionary<string,string>();
-
-            //foreach (var header in Request.he)
-            //{
-            //    headers.Add(header.Key, header.Value);
-            //}
-
 
             var getHttpResponse = await _authenticationService.GetPublicKey();
             var data = await getHttpResponse.Content.ReadAsStringAsync();
