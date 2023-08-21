@@ -27,9 +27,9 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            var headers= AddHeaders.AddHeaderValues(Request.Headers);
+            //var headers= AddHeaders.AddHeaderValues(Request.Headers);
 
-            var getHttpResponse = _phoneService.Confirm(rawContent, id,headers);
+            var getHttpResponse = _phoneService.Confirm(rawContent, id,Request.Headers);
 
             var data=await getHttpResponse.Content.ReadAsStringAsync();
 

@@ -21,14 +21,18 @@ namespace SunPayments.API.Services
             ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(BypassAllCertificate);
         }
 
-        public HttpResponseMessage Confirm(string data,long reference_id, Dictionary<string, string> headers)
+        public HttpResponseMessage Confirm(string data,long reference_id, IHeaderDictionary headers)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"api/v1/referenceIds/{reference_id}/phones/2f/confirm")
             {
                 Content=new StringContent(data,Encoding.UTF8, "application/json")
             };
 
-            HeaderAdd(headers,request);
+            foreach (var header in headers)
+            {
+                if (header.Key.Contains("X-User-Public-Key-Hash") || header.Key.Contains("X-Timestamp") || header.Key.Contains("X-Signature") || header.Key.Contains("X-Challenge"))
+                    request.Headers.Add(header.Key.ToString(), header.Value.ToString());
+            }
 
             HttpResponseMessage response=_httpClient.Send(request);
 
