@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SunPayments.API.DTOs;
+using SunPayments.API.Helpers;
 using SunPayments.API.Services;
 
 namespace SunPayments.API.Controllers
@@ -19,9 +20,10 @@ namespace SunPayments.API.Controllers
         [HttpGet("{id}/[action]")]
         public async Task<IActionResult> GetChallenge(long id)
         {
-            var userId = Request.Headers["X-User-Public-Key-Hash"];
 
-            var getHttpResponse = _challengeService.GetChallengeService(id,userId);
+            //var headers = AddHeaders.AddHeaderValues(Request.Headers);
+
+            var getHttpResponse = _challengeService.GetChallengeService(id,Request.Headers);
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
 

@@ -33,7 +33,7 @@ namespace SunPayments.API.Services
 
             foreach (var header in requestMessage)
             {
-                if(header.ToString().Contains("X-User-Public-Key-Hash") || header.ToString().Contains("X-Timestamp") || header.ToString().Contains("X-Signature") || header.ToString().Contains("X-Challenge"))
+                if(header.Key.Contains("X-User-Public-Key-Hash") || header.Key.Contains("X-Timestamp") || header.Key.Contains("X-Signature") || header.Key.Contains("X-Challenge"))
                     request.Headers.Add(header.Key.ToString(), header.Value.ToString());
             }
 
