@@ -21,7 +21,7 @@ namespace SunPayments.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> EncryptedPayload()
+        public async Task<string> EncryptedPayload()
         {
 
             string rawContent = string.Empty;
@@ -31,22 +31,13 @@ namespace SunPayments.API.Controllers
                 rawContent = await reader.ReadToEndAsync();
             }
 
-            //StringContent postContent = new StringContent(data, Encoding.UTF8, "application/json");
-            Dictionary<string, StringValues> dict = QueryHelpers.ParseQuery(rawContent);
-
             var getHttpResponse =  _initializeService.EncryptedPayload(rawContent);
 
             var data = await getHttpResponse.Content.ReadAsStringAsync();
 
 
-            if (!getHttpResponse.IsSuccessStatusCode)
-            {
-                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
-            }
-            else
-            {
-                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
-            }
+            Response.StatusCode = (int)getHttpResponse.StatusCode;
+            return data;
         }
     }
 }

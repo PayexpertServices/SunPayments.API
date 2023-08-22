@@ -17,20 +17,14 @@ namespace SunPayments.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetPublicKey()
+        public async Task<string> GetPublicKey()
         {
 
             var getHttpResponse = await _authenticationService.GetPublicKey();
             var data = await getHttpResponse.Content.ReadAsStringAsync();
 
-            if (!getHttpResponse.IsSuccessStatusCode)
-            {
-                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
-            }
-            else
-            {
-                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
-            }
+            Response.StatusCode = (int)getHttpResponse.StatusCode;
+            return data;
 
 
         }

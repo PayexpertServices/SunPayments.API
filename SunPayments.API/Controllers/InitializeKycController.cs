@@ -16,7 +16,7 @@ namespace SunPayments.API.Controllers
         }
 
         [HttpPost("{id}/[action]")]
-        public async Task<IActionResult> InitializeKyc(long id)
+        public async Task<string> InitializeKyc(long id)
         {
             // Header dan gelen datalar okunacak
 
@@ -32,15 +32,9 @@ namespace SunPayments.API.Controllers
 
             var data=await getHttpResponse.Content.ReadAsStringAsync();
 
-            if (!getHttpResponse.IsSuccessStatusCode)
-            {
-                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode,data));
-            }
-            else
-            {
-                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
-            }
-            
+            Response.StatusCode = (int)getHttpResponse.StatusCode;
+            return data;
+
         }
     }
 }

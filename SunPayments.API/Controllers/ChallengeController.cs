@@ -18,7 +18,7 @@ namespace SunPayments.API.Controllers
         }
 
         [HttpGet("{id}/[action]")]
-        public async Task<IActionResult> GetChallenge(long id)
+        public async Task<string> GetChallenge(long id)
         {
 
             //var headers = AddHeaders.AddHeaderValues(Request.Headers);
@@ -27,15 +27,8 @@ namespace SunPayments.API.Controllers
 
             string data = await getHttpResponse.Content.ReadAsStringAsync();
 
-            if (!getHttpResponse.IsSuccessStatusCode)
-            {
-                return CreateActionResult(CustomResponseDto<string>.Fail((int)getHttpResponse.StatusCode, data));
-            }
-            else
-            {
-                return CreateActionResult(CustomResponseDto<string>.Success((int)getHttpResponse.StatusCode, data));
-            }
-
+            Response.StatusCode = (int)getHttpResponse.StatusCode;
+            return data;
 
         }
     }
