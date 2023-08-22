@@ -23,14 +23,14 @@ namespace SunPayments.API.DTOs
 
         public static ExceptionResponseDto<T> Fail(ErrorDto errorDto, int statusCode)
         {
-            return new ExceptionResponseDto<T> { StatusCode = statusCode, Error = errorDto, IsSuccessful = false };
+            return new ExceptionResponseDto<T> { StatusCode = statusCode, Error = errorDto };
         }
 
         public static ExceptionResponseDto<T> Fail(string errorMessage, int statusCode, bool isShow)
         {
-            var errorDto = new ErrorDto(errorMessage, isShow);
+            var errorDto = new ErrorDto(errorMessage,isShow);
 
-            return new ExceptionResponseDto<T> { Error = errorDto, StatusCode = statusCode, IsSuccessful = false };
+            return new ExceptionResponseDto<T> { Error = errorDto, StatusCode = statusCode};
 
 
         }
