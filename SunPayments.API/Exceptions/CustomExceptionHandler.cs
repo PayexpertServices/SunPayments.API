@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using SunPayments.API.DTOs;
+using System.Net;
 using System.Text.Json;
 
 namespace SunPayments.API.Exceptions
@@ -21,20 +22,16 @@ namespace SunPayments.API.Exceptions
 
                     if (errorFeature != null)
                     {
-                        var ex = errorFeature.Error;
+                        var ex = errorFeature.Error.Message.ToString();
+                        context.Response.ContentType="application/json";
+                        context.Response.StatusCode =(int)HttpStatusCode.InternalServerError;
 
-                        ErrorDto errorDto = null;
-
-                        if (ex is CustomException)
+                        var response = new ExceptionDetails()
                         {
-                            errorDto = new ErrorDto(ex.Message, true);
-                        }
-                        else
-                        {
-                            errorDto = new ErrorDto(ex.Message, false);
-                        }
+                            StatusCode = context.Response.StatusCode,
+                            Message = ex
+                        };
 
-                        var response = ExceptionResponseDto<NoDataDto>.Fail(errorDto,500);
 
                         await context.Response.WriteAsync(JsonSerializer.Serialize(response));
                     }

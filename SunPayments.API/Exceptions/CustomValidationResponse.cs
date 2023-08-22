@@ -13,11 +13,11 @@ namespace SunPayments.API.Exceptions
                 {
                     var errors=context.ModelState.Values.Where(x=>x.Errors.Count>0).SelectMany(x=>x.Errors).Select(x=>x.ErrorMessage);
 
-                    ErrorDto errorDto = new ErrorDto(errors.ToList(), true);
+                    //ErrorDto errorDto = new ErrorDto(errors.ToList(), true);
 
-                    var response = ExceptionResponseDto<NoContentResult>.Fail(errorDto, 400);
+                    //var response = ExceptionResponseDto<NoContentResult>.Fail(errorDto, 400);
 
-                    return new BadRequestObjectResult(response);
+                    return new BadRequestObjectResult(errors);
                 };
             });
         }
