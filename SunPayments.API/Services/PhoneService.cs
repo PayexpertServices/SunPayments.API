@@ -38,14 +38,6 @@ namespace SunPayments.API.Services
 
             return response;
         }
-
-        // BU KISMI SOR
-        private void HeaderAdd(Dictionary<string, string> headers,HttpRequestMessage requestMessage)
-        {
-            foreach (var header in headers)
-            {
-                requestMessage.Headers.Add(header.Key, header.Value);
-            }
-        }
+        
     }
 }
