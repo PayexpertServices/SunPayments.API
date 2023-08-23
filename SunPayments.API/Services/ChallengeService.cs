@@ -3,10 +3,12 @@
     public class ChallengeService
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<ChallengeService> _logger;
 
-        public ChallengeService(HttpClient httpClient)
+        public ChallengeService(HttpClient httpClient, ILogger<ChallengeService> logger)
         {
             _httpClient = httpClient;
+            _logger = logger;
         }
 
         public HttpResponseMessage GetChallengeService(long reference_id, IHeaderDictionary headers)

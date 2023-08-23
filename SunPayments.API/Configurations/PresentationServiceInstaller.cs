@@ -1,4 +1,5 @@
-﻿using SunPayments.API.Services;
+﻿using SunPayments.API.Exceptions;
+using SunPayments.API.Services;
 
 namespace SunPayments.API.Configurations
 {
@@ -31,6 +32,7 @@ namespace SunPayments.API.Configurations
                 opt.BaseAddress = new Uri(configuration["BaseUrl"]);
             });
 
+            services.UseCustomValidationResponse();
 
             services.AddCors(options =>
             {
