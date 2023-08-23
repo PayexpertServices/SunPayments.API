@@ -23,7 +23,11 @@
 
 
             if(find.Key is not null && find.Value.ToString() is not null)
+            {
                 request.Headers.Add(find.Key.ToString(), find.Value.ToString());
+                _logger.LogInformation(find.Key + " " + "added to header section");
+            }
+                
 
             HttpResponseMessage response = _httpClient.Send(request);
 
