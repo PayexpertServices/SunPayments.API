@@ -32,9 +32,11 @@ namespace SunPayments.API.Controllers
             var getHttpResponse = _phoneService.Confirm(rawContent, id,Request.Headers);
 
             var data=await getHttpResponse.Content.ReadAsStringAsync();
+            byte[] encodedBytes = Encoding.UTF8.GetBytes(data);
+            string decodedText = Encoding.UTF8.GetString(encodedBytes);
 
             Response.StatusCode = (int)getHttpResponse.StatusCode;
-            return data;
+            return decodedText;
         }
 
     }
