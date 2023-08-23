@@ -18,6 +18,10 @@
 
             var find = headers.FirstOrDefault(x => x.Key == "X-User-Public-Key-Hash");
 
+            if (find.Key is null)
+                _logger.LogInformation("X-User-Public-Key-Hash can not find!");
+
+
             if(find.Key is not null && find.Value.ToString() is not null)
                 request.Headers.Add(find.Key.ToString(), find.Value.ToString());
 
