@@ -28,11 +28,9 @@ namespace SunPayments.API.Controllers
             var getHttpResponse =  _initializeService.EncryptedPayload(rawContent);
 
             var data = await getHttpResponse.Content.ReadAsStringAsync();
-            byte[] encodedBytes = Encoding.UTF8.GetBytes(data);
-            string decodedText = Encoding.UTF8.GetString(encodedBytes);
 
             Response.StatusCode = (int)getHttpResponse.StatusCode;
-            return decodedText;
+            return data;
         }
     }
 }
