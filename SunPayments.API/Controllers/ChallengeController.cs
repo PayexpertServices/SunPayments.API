@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SunPayments.API.DTOs;
-using SunPayments.API.Helpers;
+﻿using Microsoft.AspNetCore.Mvc;
 using SunPayments.API.Services;
 
 namespace SunPayments.API.Controllers

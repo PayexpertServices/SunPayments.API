@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SunPayments.API.DTOs;
-using System.Net;
-using System.Reflection.PortableExecutable;
+﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -14,6 +10,7 @@ namespace SunPayments.API.Services
 
         private bool BypassAllCertificate(object _sender, X509Certificate _cert, X509Chain _chain, System.Net.Security.SslPolicyErrors _error)
         {
+            // Sertifika doğrulandı mı diye log atılmalı mı!!!
             return true;
         }
 
