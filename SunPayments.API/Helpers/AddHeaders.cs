@@ -1,6 +1,4 @@
-﻿using Org.BouncyCastle.Asn1.Ocsp;
-
-namespace SunPayments.API.Helpers
+﻿namespace SunPayments.API.Helpers
 {
     public class AddHeaders
     {
