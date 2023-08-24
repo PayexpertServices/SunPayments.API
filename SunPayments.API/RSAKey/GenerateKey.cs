@@ -20,6 +20,8 @@ namespace SunPayments.API.Key
             _private = privateKey;
             _public = publicKey;
 
+
+
         }
     }
 }
