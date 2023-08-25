@@ -1,7 +1,4 @@
-﻿using Org.BouncyCastle.Asn1.Ocsp;
-using Org.BouncyCastle.Asn1.X509;
-using System.Net;
-using System.Reflection.PortableExecutable;
+﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
